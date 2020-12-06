@@ -18,7 +18,7 @@ int main () {
 	for (int seq = 3; seq <= n; seq++) {
 		for (int i = 0, j = seq; j <= n; i++, j++) {
 			for (int k = i + 1; k < j; k++) {
-				if ((pref[k] ^ pref[i]) > (pref[j] & pref[k])) {
+				if ((pref[k] ^ pref[i]) > (pref[j] ^ pref[k])) {
 					cout << seq - 2 << '\n';
 					exit(0);
 				}

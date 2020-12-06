@@ -35,16 +35,21 @@ int main () {
 		}
 		//ver el max time
 		int sol = 0, time = 0, cur = 0, empieza = 0;
-		bool check = false;
+		bool check = false, equal = false;
 		for (auto x : data) {
 			cur += x.second;
 			if (cur >= sol) {
+				if (cur == sol) equal = true;
 				sol = cur;
 				empieza = x.first;
 				check = true;
 			} else if (check) {
-				time = max(time, x.first - empieza);
+				if (equal) time = max(time, x.first - empieza);
+				else time = x.first - empieza;
 				check = false;
+				equal = false;
+			} else {
+				equal = false;
 			}
 		}
 		cout << sol << ' ' << time << '\n';
