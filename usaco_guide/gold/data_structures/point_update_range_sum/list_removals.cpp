@@ -11,17 +11,18 @@ template<class T> using Tree = tree<T, null_type, less<T>, rb_tree_tag, tree_ord
 int main () {
 	int n;
 	cin >> n;
-	Tree<int> ts;
+	Tree<int> ist;
 	int p[n];
 	for (int i = 0; i < n; i++) {
-		ts.insert(i);
+		ist.insert(i);
 		cin >> p[i];
 	}
 	for (int i = 0; i < n; i++) {
-		int in;
-		cin >> in;
-		in--;
-
+		int ind;
+		cin >> ind;
+		ind--;
+		int pos = *ist.find_by_order(ind);
+		ist.erase(pos);
 		cout << p[pos] << (i == n - 1 ? '\n' : ' ');
 	}
 }	

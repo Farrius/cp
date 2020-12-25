@@ -4,6 +4,10 @@ using namespace std;
 using ll = long long;
 using ld = long double;
 
+bool cmp (const pair<int, int>& a, const pair<int, int>& b) {
+	if (a.first == b.first) return a.second > b.second;
+	return a.first < b.first;
+}
 int main () {
 	int n;
 	while (cin >> n) {
@@ -16,7 +20,7 @@ int main () {
 			succ.push_back(make_pair(a, 1));
 			succ.push_back(make_pair(b, -1));
 		}
-		sort(succ.begin(), succ.end());
+		sort(succ.begin(), succ.end(), cmp);
 		//comprimir la data
 		vector<pair<int, int>> data;
 		int m = (int) succ.size();
@@ -34,23 +38,16 @@ int main () {
 			i = j + 1;
 		}
 		//ver el max time
-		int sol = 0, time = 0, cur = 0, empieza = 0;
-		bool check = false, equal = false;
+		int sol = 0, cur = 0, last = 0, time = 0;
 		for (auto x : data) {
-			cur += x.second;
-			if (cur >= sol) {
-				if (cur == sol) equal = true;
+			if (cur > sol) {
 				sol = cur;
-				empieza = x.first;
-				check = true;
-			} else if (check) {
-				if (equal) time = max(time, x.first - empieza);
-				else time = x.first - empieza;
-				check = false;
-				equal = false;
-			} else {
-				equal = false;
+				time = x.first - last;
+			} else if (cur == sol) {
+				time = max(time, x.first - last);
 			}
+			cur += x.second;
+			last = x.first;
 		}
 		cout << sol << ' ' << time << '\n';
 	}
