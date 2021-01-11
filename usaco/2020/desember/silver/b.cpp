@@ -4,56 +4,48 @@ using namespace std;
 using ll = long long;
 
 const int INF = 1e9 + 7;
+const int MX = 2505;
 
-//estructura point
-struct point {
-	int y;
-	int x;
-};
-//ordenar por x 
-bool comp_x (const point& a, const point& b) {
-	return a.x < b.x;
-}
-//ordenar por y
-bool comp_y (const point& a, const point& b) {
-	return a.y < b.y;
+int pref[MX][MX];
+
+bool cmp (const pair<int, int>& a, const pair<int, int>& b) {
+	return a.second < b.second;
 }
 
+int suma (int x1, int y1, int x2, int y2) {
+	return pref[x2 + 1][y2 + 1] - pref[x1][y2 + 1] - pref[x2 + 1][y1] + pref[x1][y1];
+}
 int main () {
-	//coger input
+	//compress
 	int n;
 	cin >> n;
-	vector<point> ar(n);
+	pair<int, int> ar[n];
 	for (int i = 0; i < n; i++) {
-		cin >> ar[i].x >> ar[i].y;
+		cin >> ar[i].first >> ar[i].second;
 	}
-	//power del 2
-	ll sol = n + 1;
-	for (int grupo = 2; grupo <= n; grupo++) {
-		for (int iz = 0; iz < n; iz++) {
-			for (int dr = 0; dr < n; dr++) {
-				int cur_grup = 0;
-				//miramos los bordes
-				int mn_x = INF, mn_y = INF, mx_x = -1, mx_y = -1;
-				//esquina iz
-				mn_x = min(mn_x, ar[iz].x);
-				mn_y = min(mn_y, ar[iz].y);
-				mx_x = max(mx_x, ar[iz].x);
-				mx_y = max(mx_y, ar[iz].y);
-				//esquina dr
-				mn_x = min(mn_x, ar[dr].x);
-				mn_y = min(mn_y, ar[dr].y);
-	mx_x = max(mx_x, ar[dr].x);
-			mx_y = max(mx_y, ar[dr].y);
-				//si esta en el rec pero no en el sub f
-				for (int j = 0; j < n; j++) {
-					if (ar[j].x <= mx_x && ar[j].x >= mn_x && ar[j].y <= mx_y && ar[j].x >= mn_y) cur_grup++;
-				}
-				if (cur_grup == grupo) sol++;
-			}
+	sort(ar, ar + n);
+	for (int i = 0; i < n; i++) {
+		ar[i].first = i + 1;
+	}
+	sort(ar, ar + n, cmp);
+	for (int i = 0; i < n; i++) {
+		ar[i].second = i + 1;
+	}
+	for (int i = 0; i < n; i++) {
+		pref[ar[i].first][ar[i].second] = 1;
+	}
+	for (int i = 1; i <= n; i++) {
+		for (int j = 1; j <= n; j++) {
+			pref[i][j] += pref[i - 1][j] + pref[i][j - 1] - pref[i - 1][j - 1];
 		}
 	}
-	cout << sol << '\n';
+	ll sol = 0;
+	for (int i = 0; i < n; i++) {
+		for (int j = i; j < n; j++) {
+			int x1 = min(ar[i].first, ar[j].first) - 1;
+			int x2 = max(ar[i].first, ar[j].first) - 1;
+			sol += suma(0, i, x1, j) * suma(x2, i, n - 1, j);
+		}
+	}
+	cout << sol + 1 << '\n';
 }
-
-
