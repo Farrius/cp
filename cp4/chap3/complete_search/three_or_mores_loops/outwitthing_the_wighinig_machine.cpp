@@ -8,51 +8,44 @@ int main () {
 	cin >> t;
 	for (int test = 1; test <= t; test++) {
 		int n = 10;
-		int ar[n], ans[5], cnt[1000], cur[1000];
-		memset(cnt, 0, sizeof(cnt));
+		int ar[n], cur[n];
 		int tot = 0;
 		for (int i = 0; i < n; i++) {
 			cin >> ar[i];
-			cnt[ar[i]]++;
 			tot += ar[i];
 		}
-		bool ok = true;
-		for (int x = 1; x < tot/5 && ok; x++) {
-			for (int i = 0; i < n && ok; i++) {
-				for (int j = i + 1; j < n && ok; j++) {
-					for (int k = j + 1; j < n && ok; j++) {
-						for (int u = k + 1; u < n && ok; u++) {
-							int y = ar[i] - x;
-							int z = ar[j] - x;
-							int l = ar[k] - x;
-							int m = ar[u] - x;
-							memset(cur, 0, sizeof(cur));
-							cur[x + y]++;
-							cur[x + z]++;
-							cur[x + l]++;
-							cur[x + m]++;
-							cur[y + z]++;
-							cur[y + l]++;
-							cur[y + m]++;
-							cur[z + l]++;
-							cur[z + m]++;
-							cur[l + m]++;
-							if (cnt[ar[0]] != cur[ar[0]]) continue;
-							if (cnt[ar[1]] != cur[ar[1]]) continue;
-							if (cnt[ar[2]] != cur[ar[2]]) continue;
-							if (cnt[ar[3]] != cur[ar[3]]) continue;
-							if (cnt[ar[4]] != cur[ar[4]]) continue;
-							if (cnt[ar[5]] != cur[ar[5]]) continue;
-							if (cnt[ar[6]] != cur[ar[6]]) continue;
-							if (cnt[ar[7]] != cur[ar[7]]) continue;
-							if (cnt[ar[8]] != cur[ar[8]]) continue;
-							if (cnt[ar[9]] != cur[ar[9]]) continue;
-							ok = false;
-							if (x > y) swap(x, y);
-							if (y > z) swap(z, y);
-							if (z > l) swap(l, z);
-							cout << "Case " << test << ": " << x << ' ' << y << ' ' << z << ' ' << l << ' ' << m << '\n';
+		tot = tot/4;
+		sort(ar, ar + n);
+		cur[0] = ar[0];
+		cur[9] = ar[9];
+		int c = tot - ar[0]- ar[9];
+		bool ok =  true;
+		for (int i = 1; i <= 8 && ok; i++) {
+			for (int j = i + 1; j <= 8 && ok; j++) {
+				for (int k = j + 1; k <= 8 && ok; k++) {
+					for (int u = k + 1; u <= 8 && ok; u++) {
+						int a = ar[i] - c;
+						int b = ar[j] - c;
+						int d = ar[k] - c;
+						int e = ar[u] - c;
+						cur[0] = a + b;
+						cur[1] = a + c;
+						cur[2] = a + d;
+						cur[3] = a + e;
+						cur[4] = b + c;
+						cur[5] = b + d;
+						cur[6] = b + e;
+						cur[7] = d + c;
+						cur[8] = d + e;
+						cur[9] = e + c;
+						sort(cur, cur + n);
+						bool good = true;
+						for (int in = 0; in < n; in++) {
+							f (cur[in] != ar[in]) good = false;
 						}
+						if (!good) continue;
+						ok = false;
+						cout << "Case " << test << ": " << a << ' ' << b << ' ' << c << ' ' << d << ' ' << e << '\n';
 					}
 				}
 			}
