@@ -19,7 +19,7 @@ int main () {
 		x %= MOD;
 		y %= MOD;
 		sol = (sol + ((((q * x) % MOD) * y) % MOD)) % MOD;
-
+		cout << q << '\n';
 	}
 
 	cout << sol << '\n';
