@@ -3,7 +3,7 @@
 using namespace std;
 
 int main () {
-	int n, x;
+    int n, x;
 	cin >> n >> x;
 	int price[n], pages[n];
 	for (int i = 0; i < n; i++) {
@@ -19,6 +19,7 @@ int main () {
 	for (int i = 0; i < n; i++) {
 		for (int c = x; c >= price[i]; c--) {
 			dp[c] = max (dp[c], dp[c - price[i]] + pages[i]);
+            
 		}
 	}
 	
