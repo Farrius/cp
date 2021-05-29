@@ -8,7 +8,8 @@ int main () {
 	string s, t;
 	cin >> s >> t;
 	int n = (int) s.size(), m = (int) t.size();
-	vector<vector<pair<int, pair<int, int>>>> dp(n + 1, vector<pair<int, pair<int, int>>>(m + 1, INF));
+	vector<vector<pair<int, pair<int, int>>>> dp(n + 1, vector<pair<int, pair<int, int>>>(m + 1, -INF));
+	dp[0][0] = 0;
 	for (int i = 0; i < n; i++) {
 		for (int j = 0; j < m; j++) {
 			if (s[i] == t[j]) {

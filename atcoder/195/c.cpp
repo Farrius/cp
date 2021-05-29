@@ -4,27 +4,22 @@ using namespace std;
 using ll = long long;
 using ld = long double;
 
-ll diez[18];
+ll power (ll n, int k) {
+    ll res = 1;
+    while (k) {
+        if (k % 2) res *= n;
+        n *= n;
+        k /= 2;
+    }
+    return res;
+}
 
 int main () {
-    diez[0] = 1;
-    for (int i = 1; i < 18; i++) {
-        diez[i] = diez[i - 1] * 10LL;
-    }
     ll n;
     cin >> n;
-    ll k = n;
-    ll ten = 0;
-    while (k) {
-        k /= 10;
-        ten++;
+    ll sol = 0;
+    for (int i = 3; i <= 15; i += 3) {
+        sol += max(0LL, n - (power(10, i) - 1));
     }
-
-    ll sol = (n % diez[ten - 1]) * 1LL * ((ten - 1)/3) + (ten > 3);
-    cout << sol << '\n';
-    for (int i = 1; i < ten; i++) {
-        sol += (diez[i] - diez[i - 1] - 1) * 1LL * ((i - 1)/3);
-    }
-
     cout << sol << '\n';
 }
